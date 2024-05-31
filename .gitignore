@@ -5,3 +5,8 @@
 *.json
 /__pycache__
 *.pyc
+
+.DS_Store
+.idea
+cmake-build-*
+venv
