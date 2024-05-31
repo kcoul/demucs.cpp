@@ -120,6 +120,8 @@ int main(int argc, const char **argv)
 
     // load audio passed as argument
     std::string wav_file = argv[2];
+    std::string input_name_with_ext = std::filesystem::path(wav_file).filename();
+    std::string input_name_without_ext = input_name_with_ext.substr(0, input_name_with_ext.find_last_of("."));
 
     // output dir passed as argument
     std::string out_dir = argv[3];
@@ -210,7 +212,7 @@ int main(int argc, const char **argv)
 
         // insert target_name into the path after the digit
         // e.g. target_name_0_drums.wav
-        p_target.replace_filename("target_" + std::to_string(target) + "_" +
+        p_target.replace_filename(input_name_without_ext + "_" + std::to_string(target) + "_" +
                                   target_name + ".wav");
 
         std::cout << "Writing wav file " << p_target << std::endl;

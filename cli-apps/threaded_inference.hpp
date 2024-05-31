@@ -159,7 +159,7 @@ threaded_inference(const struct demucscpp::demucs_model &model,
                         else if (j >= segment_length)
                         {
                             weight = ramp(segment_length + 2 * OVERLAP_SAMPLES -
-                                          j - 1);
+                                          j - 1); //Can trigger assert in L430 of DenseCoeffsBase.h eigen_assert(index >= 0 && index < size());
                         }
                         final_output(t, ch, global_idx) +=
                             segment_outs[i](t, ch, j) * weight;

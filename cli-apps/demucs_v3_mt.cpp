@@ -109,6 +109,10 @@ static void write_audio_file(const Eigen::MatrixXf &waveform,
 
 int main(int argc, const char **argv)
 {
+    auto now = std::chrono::steady_clock::now();
+    std::chrono::steady_clock::time_point lastUpdate = now;
+    float deltaTime = (float)std::chrono::duration_cast<std::chrono::microseconds>(now - lastUpdate).count() / 1000000.0f;
+
     if (argc != 5)
     {
         std::cerr << "Usage: " << argv[0]
@@ -124,6 +128,8 @@ int main(int argc, const char **argv)
 
     // load audio passed as argument
     std::string wav_file = argv[2];
+    std::string input_name_with_ext = std::filesystem::path(wav_file).filename();
+    std::string input_name_without_ext = input_name_with_ext.substr(0, input_name_with_ext.find_last_of("."));
 
     // output dir passed as argument
     std::string out_dir = argv[3];
@@ -205,7 +211,7 @@ int main(int argc, const char **argv)
 
         // insert target_name into the path after the digit
         // e.g. target_name_0_drums.wav
-        p_target.replace_filename("target_" + std::to_string(target) + "_" +
+        p_target.replace_filename(input_name_without_ext + "_" + std::to_string(target) + "_" +
                                   target_name + ".wav");
 
         std::cout << "Writing wav file " << p_target << std::endl;
@@ -224,4 +230,8 @@ int main(int argc, const char **argv)
 
         write_audio_file(target_waveform, p_target);
     }
+
+    now = std::chrono::steady_clock::now();
+    deltaTime = (float)std::chrono::duration_cast<std::chrono::microseconds>(now - lastUpdate).count() / 1000000.0f;
+    std::cout << "V3 Stems separated in " << deltaTime <<  " seconds" << std::endl;
 }
