@@ -120,7 +120,7 @@ int main(int argc, const char **argv)
 
     // load audio passed as argument
     std::string wav_file = argv[2];
-    std::string input_name_with_ext = std::filesystem::path(wav_file).filename();
+    std::string input_name_with_ext = std::filesystem::path(wav_file).filename().string();
     std::string input_name_without_ext = input_name_with_ext.substr(0, input_name_with_ext.find_last_of("."));
 
     // output dir passed as argument
@@ -229,6 +229,6 @@ int main(int argc, const char **argv)
             }
         }
 
-        write_audio_file(target_waveform, p_target);
+        write_audio_file(target_waveform, p_target.string());
     }
 }
